@@ -1,0 +1,11 @@
+{
+  "name": "knowledge-base-service",
+  "version": "1.0.0",
+  "description": "RAG Knowledge Base service using Vertex AI Embeddings",
+  "main": "knowledgeManager.js",
+  "dependencies": {
+    "@google-cloud/aiplatform": "^3.10.0",
+    "firebase-admin": "^12.0.0",
+    "compute-cosine-similarity": "^1.0.0"
+  }
+}

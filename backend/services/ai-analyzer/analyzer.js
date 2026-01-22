@@ -44,10 +44,30 @@ async function analyzePage(auditData, settings) {
     },
   });
 
-  // Construct the prompt
-  const systemInstruction = `
+    // RAG: Retrieve context from Knowledge Base
+    // We search using the page title and the first part of content as query
+    const query = `${auditData.extractedData.title} ${auditData.extractedData.mainContent?.substring(0, 200)}`;
+    
+    // Lazy load to avoid circular dependency issues if not careful with structure, 
+    // or just require at top if structure permits. Assuming we can require here or top.
+    // For robust path resolution in production structure:
+    let contextDocs = [];
+    try {
+      const { findSimilarDocuments } = require('../knowledge-base/knowledgeManager');
+      contextDocs = await findSimilarDocuments(query, 3);
+    } catch (e) {
+      console.warn('⚠️ Knowledge Base module not found or failed, skipping RAG context.');
+    }
+
+    const contextText = contextDocs.map(d => `- ${d.content}`).join('\n');
+
+    // Construct the prompt
+    const systemInstruction = `
     Tu es un expert SEO technique et sémantique de renom. Ton objectif est d'analyser le contenu d'une page web et de proposer des améliorations concrètes en JSON.
     Ton "Tone of Voice" doit être : ${settings.toneOfVoice || 'Professionnel et analytique'}.
+    
+    RÈGLES ET CONTEXTE SPÉCIFIQUE À LA MARQUE (À RESPECTER IMPÉRATIVEMENT) :
+    ${contextText || "Aucune règle spécifique trouvée."}
     
     Règles strictes :
     1. Analyse les données fournies (Titre, Meta, Contenu, Hn).
@@ -60,7 +80,7 @@ async function analyzePage(auditData, settings) {
       "changeType": "semantic" | "structure" | "technical",
       "targetPath": "${new URL(auditData.targetUrl).pathname}",
       "aiConfidence": 90, 
-      "aiReasoning": "Explication courte de pourquoi c'est nécessaire.",
+      "aiReasoning": "Explication courte de pourquoi c'est nécessaire (cite une règle de marque si applicable).",
       "expectedImpact": "Impact estimé (ex: +CTR).",
       "contentDiff": {
         "field": "meta_title" | "h1" | "content_section",
