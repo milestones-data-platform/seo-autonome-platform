@@ -194,7 +194,17 @@ async function runCrawler() {
       currentSeoScore: metrics.seoScore || 0,
       'settings.lastAuditStatus': status
     });
+const { notifyAuditCompletion } = require('./pubsub-notifier');
+
+// ... (existing code)
+
     console.log(`✅ Site document updated`);
+
+    // 8. Notify Analysis Service via Pub/Sub
+    await notifyAuditCompletion(SITE_ID, auditId, status === 'completed' ? 'success' : 'failed', {
+      duration,
+      seoScore: metrics.seoScore
+    });
 
   } catch (dbError) {
     console.error('❌ Firestore Save Error:', dbError);

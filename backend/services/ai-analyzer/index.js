@@ -15,28 +15,47 @@ app.use(express.json());
 const PORT = process.env.PORT || 8080;
 
 /**
- * Endpoint triggered by Cloud Pub/Sub or Http call after Audit
- * body: { siteId: string, auditId: string }
+ * Endpoint triggered by Cloud Pub/Sub (Push Subscription)
+ * Format expected:
+ * {
+ *   "message": {
+ *     "data": "eyJzaXRlSWQiOiIuLi4iLCJhdWRpdElkIjoiLi4uIn0=" (Base64 encoded JSON)
+ *   }
+ * }
  */
 app.post('/', async (req, res) => {
   try {
-    const { siteId, auditId } = req.body;
+    let siteId, auditId;
+
+    // Check if this is a direct call or Pub/Sub Push
+    if (req.body.message && req.body.message.data) {
+      // Decode Pub/Sub message
+      const buffer = Buffer.from(req.body.message.data, 'base64');
+      const payload = JSON.parse(buffer.toString());
+      siteId = payload.siteId;
+      auditId = payload.auditId;
+      console.log(`📩 Received Pub/Sub message for Site: ${siteId}, Audit: ${auditId}`);
+    } else {
+      // Direct HTTP call
+      siteId = req.body.siteId;
+      auditId = req.body.auditId;
+    }
 
     if (!siteId || !auditId) {
       return res.status(400).send('Missing siteId or auditId');
     }
 
-    console.log(`🚀 Received analysis request for Site: ${siteId}, Audit: ${auditId}`);
-
     // 1. Fetch Audit Data & Site Settings
     const siteDoc = await db.collection('sites').doc(siteId).get();
     if (!siteDoc.exists) {
-      return res.status(404).send('Site found');
+      console.warn(`Site ${siteId} not found`);
+      return res.status(404).send('Site not found');
     }
     const siteSettings = siteDoc.data().settings || {};
 
     const auditDoc = await db.collection('sites').doc(siteId).collection('audits').doc(auditId).get();
     if (!auditDoc.exists) {
+      console.warn(`Audit ${auditId} not found`);
       return res.status(404).send('Audit not found');
     }
     const auditData = auditDoc.data();
