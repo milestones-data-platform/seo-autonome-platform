@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the site
+    function isOwner(siteId) {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/sites/$(siteId)).data.ownerId == request.auth.uid;
+    }
+
+    // Helper function to check if the specific resource being created properly sets the ownerId
+    function isSettingOwnerIdCorrectly() {
+      return request.resource.data.ownerId == request.auth.uid;
+    }
+
+    // Users collection rules
+    // Users can only read and write their own profile
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Sites collection rules
+    match /sites/{siteId} {
+      // Create: Allow if authenticated and setting themselves as owner
+      allow create: if isAuthenticated() && isSettingOwnerIdCorrectly();
+      
+      // Read, Update, Delete: Only allow owner
+      // Note: In a real/more complex app, we might check resource.data.ownerId directly for read/update/delete
+      // But since we define ownership by the field, looking it up or comparing is key.
+      // For list queries, Firestore rules filter results automatically if using where clauses that match security rules.
+      allow read, update, delete: if isAuthenticated() && resource.data.ownerId == request.auth.uid;
+
+      // --- Sub-collections ---
+      
+      // Audits sub-collection
+      // Inherits ownership check from parent site
+      match /audits/{auditId} {
+        allow read: if isOwner(siteId);
+        // Allow creation by owner (or backend service account - rules don't apply to admin SDK)
+        // But assuming client might trigger it or view it:
+        allow create: if isOwner(siteId);
+        // Block deletion to preserve history
+        allow delete: if false; 
+        allow update: if isOwner(siteId);
+      }
+
+      // Proposals sub-collection
+      // Inherits ownership check from parent site
+      match /proposals/{proposalId} {
+        allow read: if isOwner(siteId);
+        allow create: if isOwner(siteId);
+        allow update: if isOwner(siteId);
+        // Allow deletion if needed (e.g., cleanup rejected proposals), or block it. 
+        // User requested blocking delete for audits, didn't specify for proposals but generally safe to allow owner to cleanup
+        allow delete: if isOwner(siteId);
+      }
+    }
+  }
+}
