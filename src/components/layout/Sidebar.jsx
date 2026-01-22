@@ -11,7 +11,8 @@ import {
   ShieldCheck,
   Zap,
   Settings,
-  HelpCircle
+  HelpCircle,
+  BookOpen
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
@@ -25,6 +26,7 @@ const navItems = [
 ];
 
 const bottomItems = [
+  { href: '/tutorial', icon: BookOpen, label: 'Tutoriel' },
   { href: '/settings', icon: Settings, label: 'Paramètres' },
   { href: '/help', icon: HelpCircle, label: 'Aide' },
 ];
