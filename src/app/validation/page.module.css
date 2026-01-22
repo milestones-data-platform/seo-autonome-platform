@@ -1,0 +1,279 @@
+.page {
+  animation: fadeIn 0.5s ease-out;
+  position: relative;
+}
+
+/* Notification Toast */
+.notification {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background: var(--success);
+  color: white;
+}
+
+.notification.error {
+  background: var(--error);
+  color: white;
+}
+
+.notification.info {
+  background: var(--accent-secondary);
+  color: white;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.titleIcon {
+  color: var(--success);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Stats Bar */
+.statsBar {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-2);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-primary);
+}
+
+.statBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.statBtn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.statBtn.active {
+  background: var(--bg-tertiary);
+}
+
+.statBtn.warning.active {
+  background: var(--warning-dim);
+  color: var(--warning);
+}
+
+.statBtn.success.active {
+  background: var(--success-dim);
+  color: var(--success);
+}
+
+.statBtn.error.active {
+  background: var(--error-dim);
+  color: var(--error);
+}
+
+.statBtn.info.active {
+  background: var(--info-dim);
+  color: var(--info);
+}
+
+.statLabel {
+  font-weight: 500;
+}
+
+.statCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--space-2);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: var(--text-xs);
+}
+
+.statBtn.active .statCount {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content */
+.content {
+  min-height: 400px;
+}
+
+.proposalsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Empty & Error States */
+.emptyState,
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.emptyState svg,
+.errorState svg {
+  margin-bottom: var(--space-4);
+  color: var(--text-muted);
+}
+
+.emptyState h3,
+.errorState h3 {
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.emptyState p,
+.errorState p {
+  font-size: var(--text-sm);
+  max-width: 400px;
+}
+
+.errorState button {
+  margin-top: var(--space-4);
+}
+
+/* Info Panel */
+.infoPanel {
+  margin-top: var(--space-8);
+}
+
+.infoPanelTitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.workflowSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.workflowStep {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.stepNumber {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.stepNumber.current {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.workflowStep strong {
+  display: block;
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-1);
+}
+
+.workflowStep p {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .statsBar {
+    flex-wrap: wrap;
+  }
+  
+  .statBtn {
+    flex: 1 1 45%;
+  }
+}
+
+@media (max-width: 600px) {
+  .statBtn {
+    flex: 1 1 100%;
+  }
+  
+  .statLabel {
+    display: none;
+  }
+}

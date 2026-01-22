@@ -1,0 +1,119 @@
+.activityList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.activityItem:hover {
+  background: var(--bg-elevated);
+}
+
+.agentIcon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.agentIcon.success {
+  background: var(--success-dim);
+  color: var(--success);
+}
+
+.agentIcon.primary {
+  background: var(--accent-primary-dim);
+  color: var(--accent-primary);
+}
+
+.agentIcon.warning {
+  background: var(--warning-dim);
+  color: var(--warning);
+}
+
+.agentIcon.info {
+  background: var(--info-dim);
+  color: var(--info);
+}
+
+.activityContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.agentName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activityTime {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.activityAction {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.statusIcon.success {
+  color: var(--success);
+}
+
+.statusIcon.primary {
+  color: var(--accent-primary);
+}
+
+.statusIcon.warning {
+  color: var(--warning);
+}
+
+.statusIcon.info {
+  color: var(--info);
+}
+
+.statusIcon.spinning {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

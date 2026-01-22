@@ -1,0 +1,185 @@
+.page {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.header {
+  margin-bottom: var(--space-8);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.titleIcon {
+  color: var(--info);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+}
+
+/* Map Section */
+.mapSection {
+  margin-bottom: var(--space-6);
+}
+
+.statusSummary {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.locationsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.locationCard {
+  padding: var(--space-4);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+  transition: all var(--transition-fast);
+}
+
+.locationCard:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.locationCard.healthy {
+  border-left: 3px solid var(--success);
+}
+
+.locationCard.degraded {
+  border-left: 3px solid var(--warning);
+}
+
+.locationHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.locationName {
+  flex: 1;
+  font-weight: 500;
+  font-size: var(--text-sm);
+}
+
+.locationStats {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.locationStat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+/* Bottom Grid */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+/* Functions Section */
+.functionsSection {
+  /* Styles */
+}
+
+.functionName {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--accent-secondary);
+  background: var(--accent-secondary-dim);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* ISR Section */
+.isrSection {
+  /* Styles */
+}
+
+.isrList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.isrItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.isrPath {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+}
+
+.isrPath code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.isrConfig {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.isrStat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 1400px) {
+  .locationsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1200px) {
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .locationsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .locationsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .isrItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+}

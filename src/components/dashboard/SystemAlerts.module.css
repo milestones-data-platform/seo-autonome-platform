@@ -1,0 +1,125 @@
+.alertsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.alertItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.alertItem.warning {
+  background: var(--warning-dim);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.alertItem.success {
+  background: var(--success-dim);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.alertItem.info {
+  background: var(--info-dim);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.alertItem.error {
+  background: var(--error-dim);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.alertIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.alertItem.warning .alertIcon {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+}
+
+.alertItem.success .alertIcon {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.alertItem.info .alertIcon {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--info);
+}
+
+.alertItem.error .alertIcon {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--error);
+}
+
+.alertContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.alertHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.alertTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.alertTime {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.alertMessage {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.dismissBtn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.alertItem:hover .dismissBtn {
+  opacity: 1;
+}
+
+.dismissBtn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 1200px) {
+  .alertsGrid {
+    grid-template-columns: 1fr;
+  }
+}
